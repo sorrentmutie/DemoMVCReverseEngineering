@@ -7,15 +7,18 @@ namespace DemoMVCReverseEngineering.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly INorthwindData northwindData;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,
+            INorthwindData northwindData)
         {
             _logger = logger;
+            this.northwindData = northwindData;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await northwindData.GetHomeIndexViewModelAsync());
         }
 
         public IActionResult Privacy()
